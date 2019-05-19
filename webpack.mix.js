@@ -11,5 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+
+mix.browserSync({
+    host:'weather.docker-dev.jp',
+    proxy: {
+        target: "192.168.99.100:3000",
+        ws: true
+    },
+    open: false
+})
+    .js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .version()
