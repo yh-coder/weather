@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ env('APP_NAME') }}</title>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -16,7 +17,7 @@
         </nav>
     </div>
 
-    <div class="container">
+    <div id="app" class="container">
         <div class="my-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -31,11 +32,18 @@
 
         {{$cities->links()}}
 
-        <div class="my-4">
-            @foreach ($cities as $city)
-            <div class="col-md-12">{{$city->name}}</a></div>
-            @endforeach
+        
+        <div class="row">
+            <div class="my-4">
+                @foreach ($cities as $city)
+                <div class="col-md-12">{{$city->name}} {{$city->weather_text}}</div>
+                @endforeach
+            </div>
+            <div class="col-md-6 my-4" style="min-height:20em;">
+                <!--iframe src="https://maps.google.com/maps?output=embed&z=15&q={{ urlencode($country->name)}}" frameborder="0" style="width:100%;height:100%"></iframe-->
+            </div>
         </div>
+
     </div>
     
 </body>

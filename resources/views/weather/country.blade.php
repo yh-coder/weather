@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ env('APP_NAME') }}</title>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -16,7 +17,7 @@
         </nav>
     </div>
 
-    <div class="container">
+    <div id="app" class="container">
         <div class="my-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -30,10 +31,12 @@
 
         {{$countries->links()}}
 
-        <div class="my-4">
-            @foreach ($countries as $country)
-            <div class="col-md-12"><a href="/{{$country->region_id}}/{{$country->code}}">{{$country->name}}</a></div>
-            @endforeach
+        <div class="row">
+            <div class="col-md-6 my-4">
+                @foreach ($countries as $country)
+                <div class="col-md-12"><a href="/{{$country->region_id}}/{{$country->code}}">{{$country->name}}</a></div>
+                @endforeach
+            </div>
         </div>
     </div>
     
