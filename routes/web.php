@@ -21,5 +21,3 @@ Route::get('/{region}', 'WeatherController@country')->name('weather.country');
 // City List
 Route::get('/{region}/{country}/{page?}', 'WeatherController@city')->name('weather.city');
 
-
-// Route::get('/', function () {    return view('welcome');});
