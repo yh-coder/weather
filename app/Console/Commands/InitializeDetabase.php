@@ -42,18 +42,15 @@ class InitializeDetabase extends Command
     public function handle()
     {
         // テーブル作成
-        $sql = preg_replace('/\n/', '', file_get_contents(database_path().'/init/initializa.sql'));
-        foreach (explode(';', $sql) as $stat) {
-            if (!empty($stat)) {
-                DB::statement($stat);
+        $dbh = DB::connection()->getPdo();
+        $sqls = file_get_contents(database_path().'/init/initializa.sql');
+        foreach (explode(';', $sqls) as $sql) {
+            if (!empty($sql)) {
+                $dbh->query($sql);
             }
         }
 
-        // データ投入
-
-        // 地域・国 リレーション
-
-        // UN m49
+        // 一時テーブル UN m49
         $csv = new SplFileObject(database_path().'/init/un_m49.csv');
         $csv->setFlags(SplFileObject::READ_CSV);
         $csv->seek(1);
@@ -63,7 +60,7 @@ class InitializeDetabase extends Command
             $csv->next();
         }
 
-        // ISO3166
+        // 一時テーブル ISO3166
         $csv = new SplFileObject(database_path().'/init/iso3166.csv');
         $csv->setFlags(SplFileObject::READ_CSV);
         $csv->seek(1);
@@ -73,6 +70,7 @@ class InitializeDetabase extends Command
             $csv->next();
         }
         
+        // データ投入
         // 地域
         $regions = DB::table('tmp_un_m49')
             ->select(DB::raw('region_name, sub_region_name'))

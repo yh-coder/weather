@@ -16,4 +16,9 @@ class City extends Model
         'coord_lon',
         'coord_lat'
     ];
+
+    public function wheather()
+    {
+        return $this->hasOne('App\Model\Weather', 'id', 'id');
+    }
 }
