@@ -12,3 +12,24 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.wind-icon {
+  font-size: 22px;
+  color: rgb(141, 196, 241);
+}
+
+.bg-inactive {
+  background-color: rgb(233, 232, 225);
+}
+
+.maps-block {
+  height: 480px;
+  position: sticky;
+  top: 52px;
+}
+
+header {
+  position: sticky;
+  top: 0px;
+  z-index: 10000;
+}

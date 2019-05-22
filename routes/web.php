@@ -12,12 +12,14 @@
 */
 
 
-// Region List
+// Aboutページ
+Route::view('/about', 'weather.about')->name('weather.about');
+
+// 地域リスト
 Route::get('/', 'WeatherController@region')->name('weather.region');
 
-// Country List
+// 国リスト
 Route::get('/{region}', 'WeatherController@country')->name('weather.country');
 
-// City List
+// 観測点リスト
 Route::get('/{region}/{country}/{page?}', 'WeatherController@city')->name('weather.city');
-

@@ -47,13 +47,13 @@ create table city (
 drop table if exists weather;
 create table weather (
     id bigint unique not null,
-    weather_text text not null,
-    weather_icon text not null,
-    temperature float not null,
-    temperature_max float not null,
-    temperature_min float not null,
-    wind_speed float not null,
-    wind_degree float not null,
+    weather_text text,
+    weather_icon text,
+    temperature float,
+    temperature_max float,
+    temperature_min float,
+    wind_speed float,
+    wind_degree float,
     created_at datetime not null,
     updated_at datetime not null,
     primary key (id)

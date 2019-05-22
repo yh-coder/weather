@@ -11,15 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
+const entryPoints = [
+    'common'
+];
+
+for (let ep of entryPoints) {
+    mix.js(`resources/js/${ep}.js`, 'public/js');
+}
 
 mix.browserSync({
     host:'weather.docker-dev.jp',
     proxy: {
-        target: "192.168.99.100:3000",
+        target: "172.31.7.80",
         ws: true
     },
-    open: false
+   open: false
 })
-    .js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version()
+.js('resources/js/app.js', 'public/js')
+.sass('resources/sass/app.scss', 'public/css')
+.options({processCssUrls: false})
+.sourceMaps(false)
+.version();
