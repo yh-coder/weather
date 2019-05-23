@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/">Top</a>
+                <a href="{{ route('weather.region') }}">Top</a>
             </li>
         </ol>
     </nav>

@@ -17,8 +17,8 @@ class City extends Model
         'coord_lat'
     ];
 
-    public function wheather()
+    public function weather()
     {
-        return $this->hasOne('App\Model\Weather', 'id', 'id');
+        return $this->hasMany('App\Model\Weather', 'city_id', 'id');
     }
 }

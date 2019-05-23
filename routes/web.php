@@ -11,15 +11,25 @@
 |
 */
 
-
-// Aboutページ
-Route::view('/about', 'weather.about')->name('weather.about');
-
-// 地域リスト
-Route::get('/', 'WeatherController@region')->name('weather.region');
-
-// 国リスト
-Route::get('/{region}', 'WeatherController@country')->name('weather.country');
+// 天気予報
+Route::get('/{region_id}/{country_id}/{city_id}', 'WeatherController@forecast')
+    ->where(['region_id'=>'[0-9]+', 'country_id'=>'[0-9]+', 'city_id'=>'[0-9]+'])
+    ->name('weather.forecast');
 
 // 観測点リスト
-Route::get('/{region}/{country}/{page?}', 'WeatherController@city')->name('weather.city');
+Route::get('/{region_id}/{country_id}/{q?}{page?}', 'WeatherController@city', ['q'=>'find_name'])
+    ->where(['region_id'=>'[0-9]+', 'country_id'=>'[0-9]+'])
+    ->name('weather.city');
+
+// 国リスト
+Route::get('/{region_id}', 'WeatherController@country')
+    ->where(['region_id'=>'[0-9]+'])
+    ->name('weather.country');
+
+// 地域リスト
+Route::get('/', 'WeatherController@region')
+    ->name('weather.region');
+
+// Aboutページ
+Route::view('/about', 'weather.about')
+    ->name('weather.about');

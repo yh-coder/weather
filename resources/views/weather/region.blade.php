@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/">Top</a>
+                <a href="{{ route('weather.region') }}">Top</a>
             </li>
         </ol>
     </nav>
@@ -17,7 +17,7 @@
     <div class="col-md-6 my-4">
         @foreach ($regions as $region)
         <div class="col-md-12">
-            <a href="{{$region->id}}">{{$region->name}}</a>
+            <a href="{{ route('weather.country', ['region'=>$region->id]) }}">{{$region->name}}</a>
         </div>
         @endforeach
     </div>

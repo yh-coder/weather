@@ -46,7 +46,9 @@ create table city (
 -- 観測点の天気
 drop table if exists weather;
 create table weather (
-    id bigint unique not null,
+    id bigint not null auto_increment,
+    city_id bigint not null,
+    branch bigint not null,
     weather_text text,
     weather_icon text,
     temperature float,
@@ -54,6 +56,7 @@ create table weather (
     temperature_min float,
     wind_speed float,
     wind_degree float,
+    forecast_at datetime not null,
     created_at datetime not null,
     updated_at datetime not null,
     primary key (id)
@@ -62,6 +65,7 @@ create table weather (
 -- リレーション
 create index region_id_idx ON country (region_id);
 create index county_code_idx ON city (country_code);
+create index weather_city_idx ON weather (city_id);
 
 -- 観測点一覧
-create index city_name_idx ON city (name(255));
+create fulltext index city_name_idx ON city (name(255));

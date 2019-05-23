@@ -33,10 +33,9 @@ class WeatherController extends Controller
      * 国リスト
      *
      * @param integer $region_id
-     * @param integer|null $page
      * @return void
      */
-    public function country(int $region_id, $page=null)
+    public function country(int $region_id)
     {
         // 地域取得
         $region = $this->weather_service->getRegion($region_id);
@@ -48,7 +47,7 @@ class WeatherController extends Controller
 
         // 地域・国が見つからない場合、地域リストに遷移
         if (empty($region) || $countries->isEmpty()) {
-            return redirect('/');
+            return redirect(route('weather.region'));
         }
 
         return view('weather.country', compact('region', 'countries'));
@@ -59,26 +58,56 @@ class WeatherController extends Controller
      *
      * @param integer $region_id
      * @param string $country_code
-     * @param integer|null $page
      * @return void
      */
-    public function city(int $region_id, string $country_code, $page=null)
+    public function city(int $region_id, string $country_id)
     {
         // 地域取得
         $region = $this->weather_service->getRegion($region_id);
         // 国取得
-        $country = $this->weather_service->getCountry($region_id, $country_code);
+        $country = $this->weather_service->getCountry($region_id, $country_id);
         // 国が見つからない場合、国リストに遷移
         if (empty($country)) {
-            return redirect('/'.$region->id);
+            return redirect(route('weather.country', ['region_id'=>$region_id]));
         }
+
+        // 検索文字列
+        $find_name = Request::get('q');
 
         // 都市選択
         $cities = $this->weather_service->getCityWeather(
             config('constants.city_page_size'),
-            $country_code
+            $country_id,
+            $find_name
         );
 
-        return view('weather.city', compact('region', 'country', 'cities'));
+        return view('weather.city', compact('region', 'country', 'cities', 'find_name'));
+    }
+
+    /**
+     * 観測点リスト
+     *
+     * @param integer $region_id
+     * @param string $country_code
+     * @return void
+     */
+    public function forecast(int $region_id, string $country_id, int $city_id)
+    {
+        // 地域取得
+        $region = $this->weather_service->getRegion($region_id);
+        // 国取得
+        $country = $this->weather_service->getCountry($region_id, $country_id);
+        // 国が見つからない場合、国リストに遷移
+        if (empty($country)) {
+            return redirect(route('weather.city', ['region_id'=>$region_id, 'country_id'=>$country_id]));
+        }
+        $city = $this->weather_service->getCity($city_id, $country->code);
+        if (empty($city)) {
+            return redirect(route('weather.city', ['region_id'=>$region_id, 'country_id'=>$country_id]));
+        }
+
+        $forecast = $this->weather_service->getCityForecast($city_id);
+        
+        return view('weather.forecast', compact('region', 'country', 'city', 'forecast'));
     }
 }
