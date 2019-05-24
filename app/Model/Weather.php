@@ -28,6 +28,14 @@ class Weather extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * filltableを返す
+     *
+     * @return string[]
+     */
+    public function getFilltable()
+    {
+        return $this->filltable;
+    }
 }
-
-

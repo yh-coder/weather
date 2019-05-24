@@ -22,9 +22,8 @@ class WeatherService
     {
     }
 
-
     /**
-     * 地域を列挙
+     * 地域を取得
      *
      * @return Region[]
      */
@@ -33,7 +32,6 @@ class WeatherService
         return Region::all();
     }
 
-    
     /**
      * idを指定して地域を取得
      *
@@ -77,7 +75,7 @@ class WeatherService
      * 地域とコードを指定し国を取得
      *
      * @param string $country_id
-     * @return Country
+     * @return City
      */
     public function getCity($city_id, $country_code)
     {
@@ -93,7 +91,7 @@ class WeatherService
      * @param int $page_size
      * @param string $country_code
      * @param string|null $find_name
-     * @return void
+     * @return array
      */
     public function getCityWeather($page_size, $country_id, $find_name = null)
     {
@@ -130,27 +128,21 @@ CASE;
             }
         }
 
-        // 更新が必要なIDがあれば取得しステータス更新
+        // 更新が必要なIDがあれば取得
         if (!empty($city_id_map)) {
             $weathers = $this->getApiWeather($city_id_map);
             // kv入れ替え
             $city_id_map = array_flip($city_id_map);
+            // Weatherのfillable取得
+            $fields = (new Weather)->getFilltable();
+            unset($fields['id']);
+            // DBから取得したデータに詰めなおしてステータス更新
             foreach ($weathers as $id => $w) {
                 if (array_key_exists($id, $city_id_map)) {
                     $cw = &$list[$city_id_map[$id]];
-                    $cw->city_id = $w->city_id;
-                    $cw->branch = $w->branch;
-                    $cw->weather_text = $w->weather_text;
-                    $cw->weather_text = $w->weather_text;
-                    $cw->weather_icon = $w->weather_icon;
-                    $cw->temperature = $w->temperature;
-                    $cw->temperature_max = $w->temperature_max;
-                    $cw->temperature_min = $w->temperature_min;
-                    $cw->wind_speed = $w->wind_speed;
-                    $cw->wind_degree = $w->wind_degree;
-                    $cw->forecast_at = $w->forecast_at;
-                    $cw->created_at = $w->created_at;
-                    $cw->updated_at = $w->updated_at;
+                    foreach ($fields as $field) {
+                        $cw->$field = $w->$field;
+                    }
                     $cw->status = 2;
                 }
             }
@@ -222,7 +214,7 @@ CASE;
      * 更新に失敗したデータはstatusが2以外
      *
      * @param int $city_id
-     * @return void
+     * @return array
      */
     public function getCityForecast($city_id)
     {
@@ -265,10 +257,10 @@ CASE;
 
     /**
      * APIからcity_idの天気予報を取得しDB更新
-     * 取得に失敗した場合は空の配列を返す
+     * 取得に失敗した場合はnullを返す
      *
      * @param array $city_id_map
-     * @return Weathers[]
+     * @return Weathers[]|null
      */
     public function getApiForecast($city_id)
     {

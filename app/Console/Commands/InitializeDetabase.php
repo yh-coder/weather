@@ -98,6 +98,12 @@ class InitializeDetabase extends Command
         DB::statement('drop table tmp_iso3166');
 
         // 街
-        DB::statement(file_get_contents(database_path().'/init/city.list.sql'));
+        foreach (glob(database_path().'/init/cities/*') as $file) {
+            echo "\r".$file;
+            if (is_file($file)) {
+                DB::statement(file_get_contents($file));
+            }
+        }
+        echo "\ninitdb complate.\n";
     }
 }
