@@ -135,7 +135,8 @@ CASE;
             $city_id_map = array_flip($city_id_map);
             // Weatherのfillable取得
             $fields = (new Weather)->getFilltable();
-            unset($fields['id']);
+            // id削除
+            unset($fields[0]);
             // DBから取得したデータに詰めなおしてステータス更新
             foreach ($weathers as $id => $w) {
                 if (array_key_exists($id, $city_id_map)) {
