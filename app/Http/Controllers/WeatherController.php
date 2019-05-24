@@ -44,10 +44,9 @@ class WeatherController extends Controller
             config('constants.country_page_size'),
             $region_id
         );
-
-        // 地域・国が見つからない場合、地域リストに遷移
+        // 地域・国が見つからない場合
         if (empty($region) || $countries->isEmpty()) {
-            return redirect(route('weather.region'));
+            abort('404');
         }
 
         return view('weather.country', compact('region', 'countries'));
@@ -66,15 +65,13 @@ class WeatherController extends Controller
         $region = $this->weather_service->getRegion($region_id);
         // 国取得
         $country = $this->weather_service->getCountry($region_id, $country_id);
-        // 国が見つからない場合、国リストに遷移
+        // 国が見つからない場合
         if (empty($country)) {
-            return redirect(route('weather.country', ['region_id'=>$region_id]));
+            abort('404');
         }
-
-        // 検索文字列
+        // 観測点検索文字列
         $find_name = Request::get('q');
-
-        // 都市選択
+        // 観測点取得
         $cities = $this->weather_service->getCityWeather(
             config('constants.city_page_size'),
             $country_id,
@@ -97,15 +94,16 @@ class WeatherController extends Controller
         $region = $this->weather_service->getRegion($region_id);
         // 国取得
         $country = $this->weather_service->getCountry($region_id, $country_id);
-        // 国が見つからない場合、国リストに遷移
+        // 国が見つからない場合
         if (empty($country)) {
-            return redirect(route('weather.city', ['region_id'=>$region_id, 'country_id'=>$country_id]));
+            abort('404');
         }
+        // 観測点が見つからない場合
         $city = $this->weather_service->getCity($city_id, $country->code);
         if (empty($city)) {
-            return redirect(route('weather.city', ['region_id'=>$region_id, 'country_id'=>$country_id]));
+            abort('404');
         }
-
+        // 天気予報取得
         $forecast = $this->weather_service->getCityForecast($city_id);
         
         return view('weather.forecast', compact('region', 'country', 'city', 'forecast'));
