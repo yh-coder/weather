@@ -15,6 +15,8 @@
     <h1 class="display-6">About</h1>
     <hr class="my-4">
     このサービスでは地域の気象情報を掲載しています。<br>
+    日時は日本標準時での表示となっています。<br>
+    <br>
     地域の区分は国連による世界地理区分(m49)に基づきます。<br>
     <a target="_blank" href="https://unstats.un.org/unsd/methodology/m49/overview">https://unstats.un.org/unsd/methodology/m49/overview</a><br>
     国名コードの標準はISO3166に基づきます。<br>

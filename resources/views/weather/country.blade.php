@@ -17,8 +17,8 @@
 <h1 class="my-4">{{$region->name}} 地域の国</h1>
 
 <div class="d-flex align-items-center my-4">
-    <div class="font-weight-bold mx-4">{{ $countries->total() }}件該当</div>
     <div>{{ $countries->links() }}</div>
+    <div class="font-weight-bold mx-4">{{ $countries->total() }}件</div>
 </div>
 
 <div class="row">

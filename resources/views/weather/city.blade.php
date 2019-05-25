@@ -31,8 +31,8 @@
 </div>
 
 <div class="d-flex align-items-center my-4">
-    <div class="font-weight-bold mx-4">{{ $cities->total() }}件該当</div>
     <div>{{ $cities->appends(['q'=>$find_name])->links() }}</div>
+    <div class="font-weight-bold mx-4">{{ $cities->total() }}件</div>
 </div>
 
 <div class="row my-4">
