@@ -6,8 +6,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ env('APP_NAME') }}</title>
-
-        <script src="{{ asset('js/common.js') }}" defer></script>
+        
+        @yield('javascript')
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
     </head>

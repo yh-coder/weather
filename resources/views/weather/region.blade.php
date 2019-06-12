@@ -1,5 +1,10 @@
 @extends('layouts.base')
 
+@section('javascript')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
+<script src="{{ asset('js/common.js') }}" defer></script>
+@endsection
+
 @section('content')
 <div class="my-4">
     <nav aria-label="breadcrumb">
@@ -21,6 +26,10 @@
         </div>
         @endforeach
     </div>
+</div>
+
+<div id="earth-wrap" class="d-none">
+    <canvas id="earth"></canvas>
 </div>
 
 @endsection

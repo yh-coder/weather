@@ -33,3 +33,9 @@ Route::get('/', 'WeatherController@region')
 // Aboutページ
 Route::view('/about', 'weather.about')
     ->name('weather.about');
+
+/**
+ * Earth Api
+ */
+// 座標取得
+Route::get('/api/earth', 'EarthController@coordinate')->name('api.earth.coordinate');

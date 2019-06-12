@@ -33,3 +33,16 @@ header {
   top: 0px;
   z-index: 10000;
 }
+
+#earth-wrap {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: fixed;
+  bottom: calc(50% - 320px);
+  left: 45%;
+  z-index: -1; 
+}
+
+#earth {
+  background: #f8fafc;
+}

@@ -9,6 +9,9 @@ use App\Services\WeatherService;
 
 class WeatherController extends Controller
 {
+    /**
+     * @var WeatherService $weather_service
+     */
     protected $weather_service;
 
     public function __construct(WeatherService $weather_service)
