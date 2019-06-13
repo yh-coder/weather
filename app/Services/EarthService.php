@@ -17,6 +17,50 @@ class EarthService
 
     /**
      * 緯度経度取得
+     * 
+     * @return array
+     */
+    public function getEarth()
+    {
+        $select_sql = <<<CASE
+    floor(city.coord_lon) as lon,
+    floor(city.coord_lat) as lat,
+    country.region_id as region_id,
+    country.id as country_id
+CASE;
+        /**
+         * @var Builder $query
+         */
+        $query = DB::table('city')
+            ->select(DB::raw($select_sql))->distinct()
+            ->join('country', 'city.country_code', '=', 'country.code')
+            ->orderBy(DB::raw('floor(city.coord_lon), floor(city.coord_lat), country.region_id, country.id'));
+
+        $list = [];
+        $tmp = [null, null, null];
+        foreach ($query->get() as $v) {
+            if ($tmp[0] == $v->lon && $tmp[1] == $v->lat) {
+                if ($tmp[2] != $v->region_id) {
+                    $regions[] = $v->region_id;
+                }
+                $countries[] = $v->country_id;
+            } else {
+                if (!is_null($tmp[0])) {
+                    $list[] = [[$tmp[0], $tmp[1]], $regions, $countries];
+                }
+                $tmp[0] = $v->lon;
+                $tmp[1] = $v->lat;
+                $tmp[2] = $v->region_id;
+                $regions = [$v->region_id];
+                $countries = [$v->country_id];
+            }
+        }
+        $list[] = [[$tmp[0], $tmp[1]], $regions, $countries];
+        return $list;
+    }
+
+    /**
+     * 緯度経度取得
      *
      * @param int $region_id
      * @param int $country_id
@@ -49,7 +93,7 @@ CASE;
         $list = $query->get();
         Collection::macro('shrink', function () {
             return $this->map(function ($v) {
-                return [$v->lon,$v->lat,$v->emphasis];
+                return [$v->lon, $v->lat, $v->emphasis];
             });
         });
         return collect($list)->shrink();

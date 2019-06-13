@@ -3,6 +3,7 @@
 @section('javascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
 <script src="{{ asset('js/common.js') }}" defer></script>
+<script src="{{ asset('js/earth.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -13,7 +14,7 @@
                 <a href="{{ route('weather.region') }}">Top</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ route('weather.country', ['region'=>$region->id]) }}">{{$region->name}}</a>
+                <a class="region" data-region-id="{{$region->id}}" href="{{ route('weather.country', ['region'=>$region->id]) }}">{{$region->name}}</a>
             </li>
         </ol>
     </nav>
@@ -30,7 +31,7 @@
     <div class="col-md-6 my-4">
         @foreach ($countries as $country)
         <div class="col-md-12">
-            <a href="{{ route('weather.city', ['region'=>$country->region_id, 'country'=>$country->id]) }}">{{$country->name}}</a>
+            <a class="country" data-country-id="{{$country->id}}" href="{{ route('weather.city', ['region'=>$country->region_id, 'country'=>$country->id]) }}">{{$country->name}}</a>
         </div>
         @endforeach
     </div>

@@ -38,4 +38,7 @@ Route::view('/about', 'weather.about')
  * Earth Api
  */
 // 座標取得
+Route::get('/api/earth/all', 'EarthController@earth')->name('api.earth.all');
+
+// 座標取得
 Route::get('/api/earth', 'EarthController@coordinate')->name('api.earth.coordinate');

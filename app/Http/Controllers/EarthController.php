@@ -20,7 +20,19 @@ class EarthController extends Controller
         $this->earth_service = $earth_service;
     }
 
-    
+    /**
+     * 座標取得
+     *
+     * @return void
+     */
+    public function earth()
+    {
+        // 座標取得
+        $list = $this->earth_service->getEarth();
+
+        return response()->json(['coordinate' => $list]);
+    }
+
     /**
      * 座標取得
      *

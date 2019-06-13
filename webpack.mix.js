@@ -12,7 +12,8 @@ const mix = require('laravel-mix');
  */
 
 const entryPoints = [
-    'common'
+    'common',
+    'earth'
 ];
 
 for (let ep of entryPoints) {
