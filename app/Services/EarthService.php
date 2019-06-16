@@ -41,6 +41,7 @@ CASE;
         foreach ($query->get() as $v) {
             if ($tmp[0] == $v->lon && $tmp[1] == $v->lat) {
                 if ($tmp[2] != $v->region_id) {
+                    $tmp[2] = $v->region_id;
                     $regions[] = $v->region_id;
                 }
                 $countries[] = $v->country_id;
